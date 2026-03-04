@@ -17,62 +17,163 @@ warnings.filterwarnings('ignore')
 
 
 # These are our    "Control Knobs"
+# CONFIG = {
+#     # Base parameters
+#     "signal_length": 2048,
+#     "sampling_frequency": 100e6,    # 100 MHz
+#     "pulse_width": 20.48e-6,        # 20.48 µs
+    
+#     # Single-component dataset configuration
+#     "single_component": {
+#         "train": {
+#             "parameter_combinations": 800,
+#             "noise_levels": list(range(-12, 19, 3)),  # -12 to 18 dB, step 3
+#             "num_noise_levels": 11,
+#             "num_modulations": 15,
+#             "total_signals": 132000
+#         },
+#         "val": {
+#             "parameter_combinations": 200,
+#             "noise_levels": list(range(-12, 19, 3)),
+#             "num_noise_levels": 11,
+#             "num_modulations": 15,
+#             "total_signals": 33000
+#         },
+#         "test": {
+#             "parameter_combinations": 400,
+#             "noise_levels": list(range(-21, 19, 3)),  # -21 to 18 dB, step 3
+#             "num_noise_levels": 14,
+#             "num_modulations": 15,
+#             "total_signals": 84000
+#         }
+#     },
+    
+#     # Dual-component dataset configuration
+#     "dual_component": {
+#         "train": {
+#             "parameter_combinations_per_mod": 25,
+#             "noise_levels": list(range(-12, 19, 3)),
+#             "num_noise_levels": 11,
+#             "num_modulation_combinations": 120,  # 15*(15-1)/2 + 15
+#             "total_signals": 825000
+#         },
+#         "val": {
+#             "parameter_combinations_per_mod": 10,
+#             "noise_levels": list(range(-12, 19, 3)),
+#             "num_noise_levels": 11,
+#             "num_modulation_combinations": 120,
+#             "total_signals": 132000
+#         },
+#         "test": {
+#             "parameter_combinations_per_mod": 15,
+#             "noise_levels": list(range(-21, 19, 3)),
+#             "num_noise_levels": 14,
+#             "num_modulation_combinations": 120,
+#             "total_signals": 378000
+#         }
+#     },
+    
+#     # Signal parameters (as per Table I in paper)
+#     "modulation_params": {
+#         "NM": {"f0_range": (0.1, 0.4)},
+#         "LFM": {"f0_range": (0.01, 0.45), "delta_f_range": (0.05, 0.4)},
+#         "DLFM": {"f0_range": (0.01, 0.4), "delta_f_range": (0.05, 0.35)},
+#         "MLFM": {"f0_range": (0.15, 0.5), "delta_f_range": (0.1, 0.35), "r_range": (0.3, 0.7)},
+#         "EQFM": {"fmin_range": (0.01, 0.4), "delta_f_range": (0.05, 0.3)},
+#         "SFM": {"fmin_range": (0.01, 0.15), "delta_f_range": (0.05, 0.35), 
+#                 "fSFM_range": (0.75, 10), "phiSFM_range": (0, 2*np.pi)},
+#         "BFSK": {"f1_range": (0.05, 0.45), "f2_range": (0.05, 0.45), "N_values": [5, 7, 11, 13]},
+#         "QFSK": {"f_range": (0.05, 0.45), "N_value": 4},
+#         "BPSK": {"f0_range": (0.05, 0.45), "N_values": [5, 7, 11, 13]},
+#         "Frank": {"f0_range": (0.1, 0.4), "N_values": [6, 7, 8]},
+#         "P1": {"f0_range": (0.1, 0.4), "N_values": [6, 7, 8]},
+#         "P2": {"f0_range": (0.1, 0.4), "N_values": [6, 7, 8]},
+#         "P3": {"f0_range": (0.1, 0.4), "N_values": [6, 7, 8]},
+#         "P4": {"f0_range": (0.1, 0.4), "N_values": [6, 7, 8]},
+#         "LFM_BPSK": {"fmin_range": (0.05, 0.45), "delta_f_range": (0.05, 0.4), 
+#                     "N_values": [5, 7, 11, 13]}
+#     },
+    
+#     # Modulation types (order as in paper)
+#     "modulation_types": [
+#         "NM", "LFM", "DLFM", "MLFM", "EQFM", "SFM", 
+#         "BFSK", "QFSK", "BPSK", "Frank", "P1", "P2", "P3", "P4", "LFM_BPSK"
+#     ],
+    
+#     # STFT preprocessing parameters
+#     "stft_params": {
+#         "window": "hann",
+#         "nperseg": 101,
+#         "noverlap": 101 - 8,  # stride of 8
+#         "nfft": 512,
+#         "tf_shape": (256, 256)  # after removing negative frequencies
+#     },
+    
+#     # File storage format
+#     "storage": {
+#         "signal_dtype": np.float32,
+#         "chunk_size": 1000,  # signals per chunk for memory management
+#         "checkpoint_interval": 10000  # save checkpoint every N signals
+#     }
+# }
+
+# smaller dataset for testing
 CONFIG = {
     # Base parameters
     "signal_length": 2048,
     "sampling_frequency": 100e6,    # 100 MHz
-    "pulse_width": 20.48e-6,        # 20.48 µs
+    "pulse_width": 20.48e-6,         # 20.48 µs
     
-    # Single-component dataset configuration
+    # Single-component dataset configuration (scaled down by ~75%)
     "single_component": {
         "train": {
-            "parameter_combinations": 800,
-            "noise_levels": list(range(-12, 19, 3)),  # -12 to 18 dB, step 3
-            "num_noise_levels": 11,
+            "parameter_combinations": 200,           # Was 800
+            "noise_levels": [-12, -6, 0, 6, 12, 18],  # Reduced from 11 levels
+            "num_noise_levels": 6,
             "num_modulations": 15,
-            "total_signals": 132000
+            "total_signals": 18000                    # Was 132,000
         },
         "val": {
-            "parameter_combinations": 200,
-            "noise_levels": list(range(-12, 19, 3)),
-            "num_noise_levels": 11,
+            "parameter_combinations": 50,             # Was 200
+            "noise_levels": [-12, -6, 0, 6, 12, 18],
+            "num_noise_levels": 6,
             "num_modulations": 15,
-            "total_signals": 33000
+            "total_signals": 4500                      # Was 33,000
         },
         "test": {
-            "parameter_combinations": 400,
-            "noise_levels": list(range(-21, 19, 3)),  # -21 to 18 dB, step 3
-            "num_noise_levels": 14,
+            "parameter_combinations": 100,             # Was 400
+            "noise_levels": [-21, -12, -6, 0, 6, 12, 18],  # 7 levels
+            "num_noise_levels": 7,
             "num_modulations": 15,
-            "total_signals": 84000
+            "total_signals": 10500                      # Was 84,000
         }
     },
     
-    # Dual-component dataset configuration
+    # Dual-component dataset configuration (scaled down)
     "dual_component": {
         "train": {
-            "parameter_combinations_per_mod": 25,
-            "noise_levels": list(range(-12, 19, 3)),
-            "num_noise_levels": 11,
-            "num_modulation_combinations": 120,  # 15*(15-1)/2 + 15
-            "total_signals": 825000
+            "parameter_combinations_per_mod": 8,       # Was 25
+            "noise_levels": [-12, -6, 0, 6, 12, 18],
+            "num_noise_levels": 6,
+            "num_modulation_combinations": 120,
+            "total_signals": 8 * 8 * 6 * 120 // 2,     # ~23,040
         },
         "val": {
-            "parameter_combinations_per_mod": 10,
-            "noise_levels": list(range(-12, 19, 3)),
-            "num_noise_levels": 11,
+            "parameter_combinations_per_mod": 4,        # Was 10
+            "noise_levels": [-12, -6, 0, 6, 12, 18],
+            "num_noise_levels": 6,
             "num_modulation_combinations": 120,
-            "total_signals": 132000
+            "total_signals": 4 * 4 * 6 * 120 // 2,      # ~5,760
         },
         "test": {
-            "parameter_combinations_per_mod": 15,
-            "noise_levels": list(range(-21, 19, 3)),
-            "num_noise_levels": 14,
+            "parameter_combinations_per_mod": 6,        # Was 15
+            "noise_levels": [-21, -12, -6, 0, 6, 12, 18],
+            "num_noise_levels": 7,
             "num_modulation_combinations": 120,
-            "total_signals": 378000
+            "total_signals": 6 * 6 * 7 * 120 // 2,      # ~15,120
         }
     },
-    
+
     # Signal parameters (as per Table I in paper)
     "modulation_params": {
         "NM": {"f0_range": (0.1, 0.4)},
@@ -94,28 +195,35 @@ CONFIG = {
                     "N_values": [5, 7, 11, 13]}
     },
     
-    # Modulation types (order as in paper)
+    
+    # Modulation types (unchanged - need all 15 to learn patterns)
     "modulation_types": [
         "NM", "LFM", "DLFM", "MLFM", "EQFM", "SFM", 
         "BFSK", "QFSK", "BPSK", "Frank", "P1", "P2", "P3", "P4", "LFM_BPSK"
     ],
     
-    # STFT preprocessing parameters
+    # STFT parameters (unchanged)
     "stft_params": {
         "window": "hann",
         "nperseg": 101,
-        "noverlap": 101 - 8,  # stride of 8
+        "noverlap": 93,              # 101 - 8 = stride 8
         "nfft": 512,
-        "tf_shape": (256, 256)  # after removing negative frequencies
+        "tf_shape": (256, 256)
     },
     
-    # File storage format
+    # Storage
     "storage": {
         "signal_dtype": np.float32,
-        "chunk_size": 1000,  # signals per chunk for memory management
-        "checkpoint_interval": 10000  # save checkpoint every N signals
+        "chunk_size": 500,
+        "checkpoint_interval": 5000
     }
 }
+
+# Total signals ~ 18K + 4.5K + 10.5K + 23K + 5.8K + 15K ≈ 76K signals
+# Each epoch processes ~ 41K training signals
+# At batch size 256, ~160 batches/epoch
+# 75 epochs → ~12,000 batches total
+
 
 
 

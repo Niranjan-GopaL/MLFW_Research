@@ -1,0 +1,303 @@
+{
+  "signal_length": 2048,
+  "sampling_frequency": 100000000.0,
+  "pulse_width": 2.048e-05,
+  "single_component": {
+    "train": {
+      "parameter_combinations": 200,
+      "noise_levels": [
+        -12,
+        -6,
+        0,
+        6,
+        12,
+        18
+      ],
+      "num_noise_levels": 6,
+      "num_modulations": 15,
+      "total_signals": 18000
+    },
+    "val": {
+      "parameter_combinations": 50,
+      "noise_levels": [
+        -12,
+        -6,
+        0,
+        6,
+        12,
+        18
+      ],
+      "num_noise_levels": 6,
+      "num_modulations": 15,
+      "total_signals": 4500
+    },
+    "test": {
+      "parameter_combinations": 100,
+      "noise_levels": [
+        -21,
+        -12,
+        -6,
+        0,
+        6,
+        12,
+        18
+      ],
+      "num_noise_levels": 7,
+      "num_modulations": 15,
+      "total_signals": 10500
+    }
+  },
+  "dual_component": {
+    "train": {
+      "parameter_combinations_per_mod": 8,
+      "noise_levels": [
+        -12,
+        -6,
+        0,
+        6,
+        12,
+        18
+      ],
+      "num_noise_levels": 6,
+      "num_modulation_combinations": 120,
+      "total_signals": 23040
+    },
+    "val": {
+      "parameter_combinations_per_mod": 4,
+      "noise_levels": [
+        -12,
+        -6,
+        0,
+        6,
+        12,
+        18
+      ],
+      "num_noise_levels": 6,
+      "num_modulation_combinations": 120,
+      "total_signals": 5760
+    },
+    "test": {
+      "parameter_combinations_per_mod": 6,
+      "noise_levels": [
+        -21,
+        -12,
+        -6,
+        0,
+        6,
+        12,
+        18
+      ],
+      "num_noise_levels": 7,
+      "num_modulation_combinations": 120,
+      "total_signals": 15120
+    }
+  },
+  "modulation_params": {
+    "NM": {
+      "f0_range": [
+        0.1,
+        0.4
+      ]
+    },
+    "LFM": {
+      "f0_range": [
+        0.01,
+        0.45
+      ],
+      "delta_f_range": [
+        0.05,
+        0.4
+      ]
+    },
+    "DLFM": {
+      "f0_range": [
+        0.01,
+        0.4
+      ],
+      "delta_f_range": [
+        0.05,
+        0.35
+      ]
+    },
+    "MLFM": {
+      "f0_range": [
+        0.15,
+        0.5
+      ],
+      "delta_f_range": [
+        0.1,
+        0.35
+      ],
+      "r_range": [
+        0.3,
+        0.7
+      ]
+    },
+    "EQFM": {
+      "fmin_range": [
+        0.01,
+        0.4
+      ],
+      "delta_f_range": [
+        0.05,
+        0.3
+      ]
+    },
+    "SFM": {
+      "fmin_range": [
+        0.01,
+        0.15
+      ],
+      "delta_f_range": [
+        0.05,
+        0.35
+      ],
+      "fSFM_range": [
+        0.75,
+        10
+      ],
+      "phiSFM_range": [
+        0,
+        6.283185307179586
+      ]
+    },
+    "BFSK": {
+      "f1_range": [
+        0.05,
+        0.45
+      ],
+      "f2_range": [
+        0.05,
+        0.45
+      ],
+      "N_values": [
+        5,
+        7,
+        11,
+        13
+      ]
+    },
+    "QFSK": {
+      "f_range": [
+        0.05,
+        0.45
+      ],
+      "N_value": 4
+    },
+    "BPSK": {
+      "f0_range": [
+        0.05,
+        0.45
+      ],
+      "N_values": [
+        5,
+        7,
+        11,
+        13
+      ]
+    },
+    "Frank": {
+      "f0_range": [
+        0.1,
+        0.4
+      ],
+      "N_values": [
+        6,
+        7,
+        8
+      ]
+    },
+    "P1": {
+      "f0_range": [
+        0.1,
+        0.4
+      ],
+      "N_values": [
+        6,
+        7,
+        8
+      ]
+    },
+    "P2": {
+      "f0_range": [
+        0.1,
+        0.4
+      ],
+      "N_values": [
+        6,
+        7,
+        8
+      ]
+    },
+    "P3": {
+      "f0_range": [
+        0.1,
+        0.4
+      ],
+      "N_values": [
+        6,
+        7,
+        8
+      ]
+    },
+    "P4": {
+      "f0_range": [
+        0.1,
+        0.4
+      ],
+      "N_values": [
+        6,
+        7,
+        8
+      ]
+    },
+    "LFM_BPSK": {
+      "fmin_range": [
+        0.05,
+        0.45
+      ],
+      "delta_f_range": [
+        0.05,
+        0.4
+      ],
+      "N_values": [
+        5,
+        7,
+        11,
+        13
+      ]
+    }
+  },
+  "modulation_types": [
+    "NM",
+    "LFM",
+    "DLFM",
+    "MLFM",
+    "EQFM",
+    "SFM",
+    "BFSK",
+    "QFSK",
+    "BPSK",
+    "Frank",
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "LFM_BPSK"
+  ],
+  "stft_params": {
+    "window": "hann",
+    "nperseg": 101,
+    "noverlap": 93,
+    "nfft": 512,
+    "tf_shape": [
+      256,
+      256
+    ]
+  },
+  "storage": {
+    "signal_dtype": "<class 'numpy.float32'>",
+    "chunk_size": 500,
+    "checkpoint_interval": 5000
+  }
+}

@@ -1,2 +1,4 @@
 signals/
 global_metadata.csv
+checkpoints/
+logs/
